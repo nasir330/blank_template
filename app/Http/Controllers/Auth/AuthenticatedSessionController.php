@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,18 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
+    //authchecker function
+    public function authChceker(Request $request)
+    {
+        $data = User::where('phoneNumber',$request->phoneNumber)->first();
+        if($data){
+            return redirect()->route('login')->with('data', $data);
+        }else{
+            session()->flash('error', 'This number is not registered..!!');
+        return redirect()->back();
+        }
+        
+    }
     public function create(): View
     {
         return view('auth.login');
