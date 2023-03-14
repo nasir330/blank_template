@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FriendsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +15,7 @@ use App\Http\Controllers\FriendsController;
 */
 
 Route::get('/', function () {
-    return view('main');
+    return view('welcome');
 });
 
 Route::get('/dashboard', function () {
@@ -24,13 +23,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/friends-list',[FriendsController::class,'index'])->name('friends.list');
-    Route::get('/friends-view/{id}',[FriendsController::class,'open'])->name('friends.view');
-    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/edit-profile-photo', [ProfileController::class, 'editPhoto'])->name('edit.profile.photo');
-    Route::post('/edit-profile-info', [ProfileController::class, 'editInfo'])->name('edit.profile.info');
-    Route::post('/update-profile-info', [ProfileController::class, 'updateInfo'])->name('update.profile.info');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
